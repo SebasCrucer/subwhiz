@@ -10,7 +10,6 @@ import shutil
 class SubWhiz:
     def __init__(
             self,
-            model,
             output_dir: str = ".",
             language: str = "es",
             verbose: bool = False,
@@ -18,7 +17,6 @@ class SubWhiz:
         """
         Inicializa la herramienta con el modelo whisperx.
 
-        :param model: Modelo whisperx pre-entrenado
         :param output_dir: Directorio de salida para los archivos generados
         :param language: Lenguaje para la transcripción
         :param verbose: Si True, imprime información adicional durante la ejecución
@@ -29,7 +27,11 @@ class SubWhiz:
         self.verbose = verbose
 
         os.makedirs(self.output_dir, exist_ok=True)
-        self.model = model
+
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        compute_type = "float16" if device == "cuda" else "float32"
+        whisper_model = whisperx.load_model("small", device, compute_type=compute_type)
+        self.model = whisper_model
 
 
     def process_videos(self, video_paths: list, output_srt: bool = False,

@@ -47,13 +47,9 @@ poetry shell
 
 ```python
 from video_subtitle_tool import VideoSubtitleTool
-import whisperx
-
-# Cargar el modelo WhisperX
-model = whisperx.load_model(device="cuda" if torch.cuda.is_available() else "cpu")
 
 # Crear instancia de la herramienta
-tool = VideoSubtitleTool(model=model, output_dir="output", language="es", verbose=True)
+tool = VideoSubtitleTool(output_dir="output", language="es", verbose=True)
 
 # Lista de videos a procesar
 video_paths = ["video1.mp4", "video2.mp4"]
