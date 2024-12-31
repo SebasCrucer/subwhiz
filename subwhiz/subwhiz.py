@@ -234,6 +234,10 @@ class SubWhiz:
         for segment in transcript:
             words = segment.get("words", [])
             for word_info in words:
+                # Revisar si existe start y end
+                if "start" not in word_info or "end" not in word_info:
+                    print(f"[word] {word_info['word']} - No se encontraron timestamps.")
+                    continue
                 word = word_info["word"].strip().replace('-->', '->')
                 start_time = word_info['start']
                 end_time = word_info['end']
